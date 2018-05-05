@@ -6,118 +6,57 @@
 package com.butanclub;
 
 import com.butanclub.dao.UsuarioDAO;
-import com.butanclub.jdbc.UsuarioDAOjdbc;
 import com.butanclub.model.Usuario;
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  *
  * @author Pedro Luis
  */
-@WebServlet( urlPatterns = {"/registro"})
-public class Registro extends HttpServlet {
-    
+@Controller
+@RequestMapping("/registro")
+@SessionAttributes("usuario")
+public class Registro {
+
+    @Autowired
     private UsuarioDAO usuarios;
-     String svlURL;
-    final String srvViewPath = "/WEB-INF/usuarios";
 
-    
-    
-    
-    @Override
-    public void init(ServletConfig servletConfig) throws ServletException {
-        super.init(servletConfig);
+    public Registro() {
 
-        svlURL = servletConfig.getServletContext().getContextPath() + "/usuarios";
-
-        usuarios = new UsuarioDAOjdbc();
-    }
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        response.setContentType("text/html");
-        request.setAttribute("svlURL", svlURL);
-        request.setCharacterEncoding("UTF-8");
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-        
-        RequestDispatcher rd = request.getRequestDispatcher("");
-        
-        Usuario usu = new Usuario();
-                request.setAttribute("usuario", usu);
-                rd = request.getRequestDispatcher(srvViewPath + "/RegistroUsuario.jsp");
-                
-                
-        rd.forward(request, response);
+    @ModelAttribute
+    private void configView(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+
+        model.addAttribute("svlURL", request.getContextPath() + request.getServletPath() + "/registro");
+        model.addAttribute("listadoUsuarios", usuarios.buscaTodos().toArray());
+        if (!model.containsAttribute("usuario")) {
+            model.addAttribute("usuario", new Usuario());
+        }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-        
-        
-        RequestDispatcher rd = request.getRequestDispatcher("");
-        
-       Usuario usu = new Usuario();
-                if (validaUsuario(request, usu)) {
-                    usuarios.crea(usu);
-                    rd = request.getRequestDispatcher(srvViewPath + "/NuevoUsuario.jsp");
-                    
-                }
-                
-                
-        rd.forward(request, response);
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public String regitroUsuarioGET(@ModelAttribute("usuario") Usuario usu, ModelMap model) {
+        model.addAttribute("usuario", usu);
+        return "usuarios/RegistroUsuario";
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-private boolean validaUsuario(HttpServletRequest request, Usuario usu) {
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String ewgistroUsuarioPOST(@ModelAttribute("usuario") Usuario usu, ModelMap model) {
+        usuarios.crea(usu);
+        return "usuarios/NuevoUsuario";
+
+    }
+
+    private boolean validaUsuario(HttpServletRequest request, Usuario usu) {
         usu.setApellidos(request.getParameter("apellidos"));
         usu.setContraseña(request.getParameter("pass"));
         usu.setCorreo(request.getParameter("email"));

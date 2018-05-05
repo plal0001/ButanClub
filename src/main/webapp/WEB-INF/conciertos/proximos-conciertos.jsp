@@ -20,7 +20,7 @@
                     <br>
                     Día: ${co.fecha}  <br>  Hora:${co.hora}
                     <br>
-                    <form action="${svlURL}/comprarEntrada" method="post">
+                    <form action="/ButanClub/main/conciertos/comprarEntrada" method="post">
                         <input type="text" name="idconcierto" hidden value="${co.id}">
                         <input class="btn btn-primary" type="submit" name="compra" value="Comprar Entrada">
                     </form>

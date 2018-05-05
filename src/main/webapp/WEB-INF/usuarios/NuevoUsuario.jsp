@@ -28,10 +28,10 @@
         <div class="row justify-content-center ">
             <div class="col-lg-8 row centrar-contenido box">
                 <div class="col-md-4">
-                    <%@include file="../templates/modulos/datos-usuario.jspf" %>
+                    <h1>Usuario creado satisfactoriamente</h1>
                 </div>
                 <div class="col-md-4">
-                <a class="btn btn-primary" href="/ButanClub">Terminar</a>
+                <a class="btn btn-primary" href="/ButanClub/main/usuarios">Continuar</a>
             </div>
             </div>
             

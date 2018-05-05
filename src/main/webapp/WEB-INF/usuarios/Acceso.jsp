@@ -55,7 +55,7 @@
             --%>
             <div class="col-md-4 box">
                 <center>
-                    <c:if test="${param.error!=null}"> <span class="label label-danger">Vuelve a introducir tus credenciales</span></c:if>
+                    <c:if test="${param.error!=null}"> <span class="label label-danger" style="color:red">Vuelve a introducir tus credenciales</span></c:if>
                     <form action="j_security_check" method="POST" >
 
                         <fieldset>
@@ -70,7 +70,7 @@
                         </fieldset>
 
                         <input type="submit" name="Login" value="Entrar" class="btn btn-primary">
-                        <a class="btn-link btn" href='/ButanClub/registro' >Registrarse</a>
+                        <a class="btn-link btn" href='/ButanClub/main/registro' >Registrarse</a>
                     </form>
                 </center>
             </div>

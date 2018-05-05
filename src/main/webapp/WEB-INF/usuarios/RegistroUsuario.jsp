@@ -3,7 +3,7 @@
     Created on : 16-mar-2018, 19:39:25
     Author     : Pedro Luis
 --%>
-
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,8 +16,26 @@
         <link rel="stylesheet" href="css/font-awesome.css">  
         -->
         <%@include file="/WEB-INF/templates/estilos.jspf" %>
+      <!--  <script type="text/javascript">
+            function valida(form){
+                var validado = true;
+                var msg = "";
+                if(form.usuario.length > 20 || form.usuario.length < 4){
+                    msg="El nombre de usuario debe estar entre 4 y 20 caracteres";
+                    validado=false;
+                }
+                if(form.pass.value !== form.pass_conf.value){
+                    msg="Las contraseñas no coinciden";
+                    validado=false;
+                }
+                if(validado===false){
+                    alert(msg);
+                }
+                return validado;
+            }
+        </script>-->
     </head> 
-     
+
     <%@include file="/WEB-INF/templates/navbar.jspf" %>
     <body>
 
@@ -25,34 +43,35 @@
         <div class="row justify-content-center">
             <div class=" box col-lg-8 ">
                 <center>
-                    <form name="registro_usuarios" method="POST">
-                    <fieldset>
-                        <legend>
-                            <h2>Nuevo Usuario</h2>
-                         
-                        </legend>
-                        
-                        <label>Nombre de Usuario:<input type="text" name="usuario" required class="form-control" ></label>
-                        <label>Contraseña: <input type="password" name="pass" required class="form-control"></label>
-                        <label>Confirme Contraseña: <input type="password" required name="confirmacion-pass" class="form-control"></label>
-                        
-                                <label>Nombre: <input type="text" name="nombre" required class="form-control"></label>
-                                            
-                                <label>Apellidos: <input type="text" name="apellidos" required class="form-control"></label>
-                                                  
-                                <label>E-mail: <input type="email" name="email" required class="form-control"></label>
-                                                  
-                                <label>Fecha Nacimiento: <input type="date" required name="fecha" class="form-control"></label>
-                                                  
-                                <label>Teléfono: <input type="tel" name="tlfn" required class="form-control"></label>
+                    <form:form  method="POST" modelAttribute="usuario">
+                        <fieldset>
+                            <legend>
+                                <h2>Nuevo Usuario</h2>
+
+                            </legend>
+
+                            <label>Nombre de Usuario:<form:input type="text" path="usuario" class="form-control" /></label>
+                            <label>Contraseña: <form:input type="password" path="contraseña" class="form-control"/></label>
+                            <!-- La confirmacion de contraseña sería introducir un atributo en la clase usuario y sus respectivos cambios-->
+                            <label>Nombre: <form:input type="text" path="nombre" class="form-control"/></label>
+
+                            <label>Apellidos: <form:input type="text" path="apellidos"  class="form-control"/></label>
+
+                            <label>E-mail: <form:input type="email" path="correo"  class="form-control"/></label>
+
+                            <label>Fecha Nacimiento: <form:input type="date"  path="fNacimiento" class="form-control"/></label>
+
+                            <label>Teléfono: <form:input type="tel" path="telefono" class="form-control"/></label>
                             
-                    </fieldset>
-                   
+                            <form:hidden path="tipoUsuario" value="Registrado"/>
+
+                        </fieldset>
+
                         <input type="submit" name="altaUsuario" value="Enviar" class="btn btn-primary">
                         <input type="reset" name="reset" value="Reestablecer" class="btn">
-                    
-                </form>
-            </center>
+
+                    </form:form>
+                </center>
             </div>
         </div>
 
