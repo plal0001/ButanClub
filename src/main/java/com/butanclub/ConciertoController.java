@@ -67,13 +67,13 @@ public class ConciertoController {
     }
 
     @RequestMapping(value = "/solicitarSala", method = RequestMethod.GET)
-    public RedirectView solicitarSala(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String solicitarSala(ModelMap model, HttpServletRequest request, HttpServletResponse response) throws IOException {
         Concierto c = new Concierto();
         if (validaConcierto(request, c)) {
             conciertos.crea(c);
 
         }
-        return new RedirectView("/ButanClub/main/usuarios");
+        return "redirect:/main/usuarios";
     }
 
     @RequestMapping(value = "/comprarEntrada", method = RequestMethod.POST)

@@ -114,7 +114,7 @@ public class UsuarioController {
         }
         if (request.isUserInRole("Artista")) {
 
-            url = "usuario/infoUsuarioArtista";
+            url = "usuarios/infoUsuarioArtista";
         }
         if (request.isUserInRole("Administrador")) {
 

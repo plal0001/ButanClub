@@ -21,6 +21,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -39,18 +40,18 @@ public class ConciertoDAOjdbc implements ConciertoDAO {
     private static final String SQL_BORRA = "DELETE FROM Conciertos WHERE id=?";
     private static final String SQL_CONCIERTOSUSUARIO = "SELECT * FROM Conciertos WHERE id in (SELECT DISTINCT concierto FROM Entradas WHERE usuario=?)";
     private static final String SQL_BUSCAPROXIMOSCONIERTOS = "SELECT * FROM (SELECT * FROM BUTAN.CONCIERTOS  order by fecha asc ) conciertos FETCH FIRST 3 ROWS ONLY";
-
+    @Autowired
     private DataSource ds = null;
 
     public ConciertoDAOjdbc() {
-        if (ds == null) {
-            try {
-                Context context = new InitialContext();
-                ds = (DataSource) context.lookup(connPoolName);
-            } catch (NamingException ex) {
-                Logger.getLogger(UsuarioDAOjdbc.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        if (ds == null) {
+//            try {
+//                Context context = new InitialContext();
+//                ds = (DataSource) context.lookup(connPoolName);
+//            } catch (NamingException ex) {
+//                Logger.getLogger(UsuarioDAOjdbc.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }
 
     private Concierto conciertoMapper(ResultSet rs) throws SQLException {

@@ -19,6 +19,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -35,17 +36,18 @@ public class EntradaDAOjdbc implements EntradaDAO {
     private static final String SQL_BUSCAENTRADA = "SELECT * FROM Entradas where id=?";
     private static final String SQL_BUSCAENTRADASTODAS = "SELECT * FROM Entradas where usuario=?";
 
+    @Autowired
     private DataSource ds = null;
 
     public EntradaDAOjdbc() {
-        if (ds == null) {
-            try {
-                Context context = new InitialContext();
-                ds = (DataSource) context.lookup(connPoolName);
-            } catch (NamingException ex) {
-                Logger.getLogger(UsuarioDAOjdbc.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        if (ds == null) {
+//            try {
+//                Context context = new InitialContext();
+//                ds = (DataSource) context.lookup(connPoolName);
+//            } catch (NamingException ex) {
+//                Logger.getLogger(UsuarioDAOjdbc.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }
 
     private Entrada entradaMapper(ResultSet rs) throws SQLException {

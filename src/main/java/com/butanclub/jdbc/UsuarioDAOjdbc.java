@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -36,17 +37,18 @@ public class UsuarioDAOjdbc implements UsuarioDAO {
     private static final String SQL_ACTUALIZA = "UPDATE Usuarios set  pass=?, nombre=?, apellidos=?, correo=?, fnac=?, tlfn=?, tipousuario=?WHERE usuario=?";
     private static final String SQL_BORRA = "DELETE FROM Usuarios WHERE usuario=?";
 
+    @Autowired
     private DataSource ds = null;
 
     public UsuarioDAOjdbc() {
-        if (ds == null) {
-            try {
-                Context context = new InitialContext();
-                ds = (DataSource) context.lookup(connPoolName);
-            } catch (NamingException ex) {
-                Logger.getLogger(UsuarioDAOjdbc.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        if (ds == null) {
+//            try {
+//                Context context = new InitialContext();
+//                ds = (DataSource) context.lookup(connPoolName);
+//            } catch (NamingException ex) {
+//                Logger.getLogger(UsuarioDAOjdbc.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
     }
 
     private Usuario usuarioMapper(ResultSet rs) throws SQLException {

@@ -25,14 +25,14 @@ public class Usuario {
     }
 
     public Usuario() {
-        this.usuario = " ";
-        this.contraseña = " ";
-        this.nombre = " ";
-        this.apellidos = " ";
-        this.correo = " ";
-        this.telefono = " ";
-        this.tipoUsuario = " ";
-        this.fNacimiento = " ";
+        this.usuario = "";
+        this.contraseña = "";
+        this.nombre = "";
+        this.apellidos = "";
+        this.correo = "";
+        this.telefono = "";
+        this.tipoUsuario = "";
+        this.fNacimiento = "";
     }
 
     public void setTipoUsuario(String tipoUsuario) {
