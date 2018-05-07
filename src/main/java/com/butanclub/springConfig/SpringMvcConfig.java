@@ -32,6 +32,8 @@ public class SpringMvcConfig implements WebMvcConfigurer {
      * This is intended to be used when the Spring MVC DispatcherServlet is
      * mapped to "/" thus overriding the Servlet container's default handling of
      * static resources.
+     * @return 
+     * @throws javax.naming.NamingException
      */
 //  @Override
 //    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

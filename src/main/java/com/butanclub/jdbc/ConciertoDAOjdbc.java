@@ -38,6 +38,7 @@ public class ConciertoDAOjdbc implements ConciertoDAO {
     private static final String SQL_CREA = "INSERT INTO Conciertos (imagen,nombre,artista,precio,fecha,hora,genero) VALUES (?, ?, ?,?,?,?,? )";
     private static final String SQL_ACTUALIZA = "UPDATE Conciertos set  pass=?, nombre=?, apellidos=?, correo=?, fnac=?, tlfn=?, tipousuario=?WHERE id=?";
     private static final String SQL_BORRA = "DELETE FROM Conciertos WHERE id=?";
+    private static final String SQL_BORRA_ENTRADA = "DELETE FROM Entradas WHERE id=?";
     private static final String SQL_CONCIERTOSUSUARIO = "SELECT * FROM Conciertos WHERE id in (SELECT DISTINCT concierto FROM Entradas WHERE usuario=?)";
     private static final String SQL_BUSCAPROXIMOSCONIERTOS = "SELECT * FROM (SELECT * FROM BUTAN.CONCIERTOS  order by fecha asc ) conciertos FETCH FIRST 3 ROWS ONLY";
     @Autowired
@@ -89,8 +90,11 @@ public class ConciertoDAOjdbc implements ConciertoDAO {
     public boolean borra(Integer _id) {
         boolean borrado = false;
         try (Connection conn = ds.getConnection();
-                PreparedStatement stmn = conn.prepareStatement(SQL_BORRA)) {
-            stmn.setInt(1, _id);
+                PreparedStatement stmn = conn.prepareStatement(SQL_BORRA);
+                PreparedStatement stmn2 = conn.prepareStatement(SQL_BORRA_ENTRADA)) {
+            stmn.setInt(1, _id);            
+            stmn2.setInt(1, _id);
+            stmn2.executeUpdate();
             borrado = (stmn.executeUpdate() == 1);
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAOjdbc.class.getName()).log(Level.SEVERE, null, ex);

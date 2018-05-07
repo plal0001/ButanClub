@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.butanclub.jdbc;
-
 import com.butanclub.dao.UsuarioDAO;
 import com.butanclub.model.Usuario;
 import java.sql.Connection;
@@ -16,9 +15,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -36,9 +32,10 @@ public class UsuarioDAOjdbc implements UsuarioDAO {
     private static final String SQL_CREA = "INSERT INTO Usuarios VALUES (?, ?, ?,?,?,?,?,? )";
     private static final String SQL_ACTUALIZA = "UPDATE Usuarios set  pass=?, nombre=?, apellidos=?, correo=?, fnac=?, tlfn=?, tipousuario=?WHERE usuario=?";
     private static final String SQL_BORRA = "DELETE FROM Usuarios WHERE usuario=?";
+    private static final String SQL_BORRA_ENTRADA = "DELETE FROM Entradas WHERE usuario=?";
 
     @Autowired
-    private DataSource ds = null;
+    private DataSource ds ;
 
     public UsuarioDAOjdbc() {
 //        if (ds == null) {
@@ -168,8 +165,11 @@ public class UsuarioDAOjdbc implements UsuarioDAO {
     public boolean borra(String _usu) {
         boolean borrado = false;
         try (Connection conn = ds.getConnection();
-                PreparedStatement stmn = conn.prepareStatement(SQL_BORRA)) {
+                PreparedStatement stmn = conn.prepareStatement(SQL_BORRA);
+                PreparedStatement stmn2 = conn.prepareStatement(SQL_BORRA_ENTRADA)) {
             stmn.setString(1, _usu);
+            stmn2.setString(1, _usu);
+            stmn2.executeUpdate();
             borrado = (stmn.executeUpdate() == 1);
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioDAOjdbc.class.getName()).log(Level.SEVERE, null, ex);
